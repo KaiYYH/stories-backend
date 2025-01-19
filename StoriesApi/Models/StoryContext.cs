@@ -4,10 +4,10 @@ namespace StoriesApi.Models;
 
 public class StoryContext : DbContext
 {
-    public StoryContext(DbContextOptions<StoryContext> options)
-        : base(options)
+    public StoryContext(DbContextOptions options) : base(options)
     {
     }
 
-    public DbSet<Story> Stories { get; set; } = null!;
+    public DbSet<Story> Stories { get; set; }
+    public DbSet<Post> Posts { get; set; }
 }

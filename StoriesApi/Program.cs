@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using StoriesApi.Models;
 
@@ -24,6 +25,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var allowedOrigins = app.Configuration.GetSection("appSettings") != null
+            ? app.Configuration.GetSection("appSettings").GetSection("AllowedCorsOrigins").GetChildren().Select(x => x.Value).ToArray()
+            : Array.Empty<string>();
+        Trace.WriteLine("allowed origins:" + string.Join(',', allowedOrigins));
+        app.UseCors(x => x
+            .WithOrigins(allowedOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            .WithExposedHeaders("Content-Disposition"));
 
 app.UseHttpsRedirection();
 

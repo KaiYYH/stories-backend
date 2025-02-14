@@ -21,7 +21,6 @@ namespace StoriesApi.Controllers
         }
 
         // GET: api/Stories/id/Posts
-        // CHANGE TO GET ALL POSTS FOR A STORY
         [HttpGet("{id}/Posts")]
         public async Task<ActionResult<IEnumerable<Post>>> GetPostsForStory(int id)
         {

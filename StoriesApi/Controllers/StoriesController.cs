@@ -20,6 +20,22 @@ namespace StoriesApi.Controllers
             _context = context;
         }
 
+        // GET: api/Stories/id/Posts
+        [HttpGet("{id}/Posts")]
+        public async Task<ActionResult<IEnumerable<Post>>> GetPostsForStory(int id)
+        {
+            var story = await _context.Stories.FindAsync(id);
+
+            if (story == null)
+            {
+                return NotFound();
+            }
+
+            var posts = await _context.Posts.Where(post => post.StoryId == id).ToListAsync();
+
+            return posts;
+        }
+
         // GET: api/Stories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Story>>> GetStories()

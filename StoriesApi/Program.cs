@@ -26,10 +26,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var allowedOrigins = app.Configuration.GetSection("appSettings") != null
-            ? app.Configuration.GetSection("appSettings").GetSection("AllowedCorsOrigins").GetChildren().Select(x => x.Value).ToArray()
+var allowedOrigins = app.Configuration.GetSection("AllowedCorsOrigins") != null
+            ? app.Configuration.GetSection("AllowedCorsOrigins").GetChildren().Select(x => x.Value).ToArray()
             : Array.Empty<string>();
-        Trace.WriteLine("allowed origins:" + string.Join(',', allowedOrigins));
+        Console.WriteLine("allowed origins:" + string.Join(',', allowedOrigins));
         app.UseCors(x => x
             .WithOrigins(allowedOrigins)
             .AllowAnyMethod()

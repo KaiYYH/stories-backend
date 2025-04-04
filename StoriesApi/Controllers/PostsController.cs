@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -71,6 +72,15 @@ namespace StoriesApi.Controllers
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
             _context.Posts.Add(post);
+
+            // Updates story last post date
+            var story = await _context.Stories.FindAsync(post.StoryId); // get story
+            story.LastPost = post.Date; // set last post to post date of post being added now
+
+            // Updates post count for story
+            var posts = await _context.Posts.Where(x => x.StoryId == post.StoryId).ToListAsync(); // get posts into list
+            story.PostCount = posts.Count; // counts posts in post list
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPost", new { id = post.PostId }, post);

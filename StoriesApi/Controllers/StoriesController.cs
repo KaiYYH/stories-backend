@@ -63,7 +63,7 @@ namespace StoriesApi.Controllers
         public async Task<IActionResult> PutStory(int id, Story story)
         {
             var existingStory = await _context.Stories.FindAsync(id);
-            if(existingStory == null) {
+            if (existingStory == null) {
                 return NotFound();
             }
 

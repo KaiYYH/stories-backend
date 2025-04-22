@@ -40,14 +40,9 @@ namespace StoriesApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
         {
-            Console.WriteLine(post);
-
             var existingPost = await _context.Posts.FindAsync(id);
 
-            Console.WriteLine(existingPost);
-            
-
-            if(existingPost == null) {
+            if (existingPost == null) {
                 return NotFound();
             }
 

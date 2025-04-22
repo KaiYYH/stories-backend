@@ -41,7 +41,7 @@ namespace StoriesApi.Controllers
         public async Task<IActionResult> PutUser(int id, User user)
         {
             var existingUser = await _context.Users.FindAsync(id);
-            if(existingUser == null) {
+            if (existingUser == null) {
                 return NotFound();
             }
 

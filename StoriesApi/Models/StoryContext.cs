@@ -10,4 +10,5 @@ public class StoryContext : DbContext
 
     public DbSet<Story> Stories { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<User> Users { get; set; }
 }

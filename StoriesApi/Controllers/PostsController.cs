@@ -40,23 +40,20 @@ namespace StoriesApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
         {
-            _context.Entry(post).State = EntityState.Modified;
+            Console.WriteLine(post);
 
-            try
-            {
-                await _context.SaveChangesAsync();
+            var existingPost = await _context.Posts.FindAsync(id);
+
+            Console.WriteLine(existingPost);
+            
+
+            if(existingPost == null) {
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            existingPost.Content = post.Content;
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

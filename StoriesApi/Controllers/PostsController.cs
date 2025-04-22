@@ -40,11 +40,6 @@ namespace StoriesApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
         {
-            if (id != post.PostId)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(post).State = EntityState.Modified;
 
             try
@@ -78,8 +73,7 @@ namespace StoriesApi.Controllers
             story.LastPost = post.Date; // set last post to post date of post being added now
 
             // Updates post count for story
-            var posts = await _context.Posts.Where(x => x.StoryId == post.StoryId).ToListAsync(); // get posts into list
-            story.PostCount = posts.Count; // counts posts in post list
+            story.PostCount = story.PostCount + 1; // increments post count
 
             await _context.SaveChangesAsync();
 

@@ -62,28 +62,15 @@ namespace StoriesApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStory(int id, Story story)
         {
-            if (id != story.StoryId)
-            {
-                return BadRequest();
+            var existingStory = await _context.Stories.FindAsync(id);
+            if (existingStory == null) {
+                return NotFound();
             }
 
-            _context.Entry(story).State = EntityState.Modified;
+            existingStory.Name = story.Name;
+            existingStory.Description = story.Description;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

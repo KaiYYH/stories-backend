@@ -35,6 +35,15 @@ namespace StoriesApi.Controllers
             return user;
         }
 
+        // Login user - api/Users/login
+        [HttpPost("login")]
+        public async Task<User?> LoginUser(LoginRequest request)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(user => user.Username == request.Username && user.Password == request.Password);
+
+            return user;
+        }
+
         // PUT: api/Users/5
         // To protect from overusering attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

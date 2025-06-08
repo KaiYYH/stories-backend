@@ -7,4 +7,5 @@ public class Story
     public string? Description { get; set; }
     public int PostCount { get; set; }
     public DateTime? LastPost { get; set; }
+    public required int UserId { get; set; }
 }

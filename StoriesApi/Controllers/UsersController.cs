@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StoriesApi.Models;
+using StoriesApi.Utils;
 
 namespace StoriesApi.Controllers
 {
@@ -67,6 +68,12 @@ namespace StoriesApi.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> UserUser(User user)
         {
+            // does username already exist?
+            if (_context.Users.Any(existingUser => existingUser.Username == user.Username))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { message = nameof(ErrorCode.UsernameTaken) });
+            }
+
             _context.Users.Add(user);
 
             await _context.SaveChangesAsync();

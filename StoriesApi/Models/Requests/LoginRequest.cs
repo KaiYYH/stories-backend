@@ -1,4 +1,4 @@
-namespace StoriesApi.Models;
+namespace StoriesApi.Models.Requests;
 
 public class LoginRequest
 {

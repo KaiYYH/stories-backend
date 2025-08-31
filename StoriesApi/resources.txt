@@ -1,2 +1,5 @@
 Tutorial: Create a web API with ASP.NET core: 
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-9.0&tabs=visual-studio-code 
+
+run backend:
+dotnet run --launch-profile https

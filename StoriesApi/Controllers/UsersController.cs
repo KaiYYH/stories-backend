@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StoriesApi.Models;
 using StoriesApi.Utils;
+using StoriesApi.Models.Requests;
+using StoriesApi.Models.Responses;
+using StoriesApi.Models;
 
 namespace StoriesApi.Controllers
 {
@@ -34,6 +37,19 @@ namespace StoriesApi.Controllers
             }
 
             return user;
+        }
+
+        // Get multiple users at once
+        [HttpPost("multiget")]
+        public async Task<MultigetUserResponse> MultigetUser(MultigetRequest request)
+        {
+            var users = await _context.Users.Where(user => request.Ids.Contains(user.UserId)).ToListAsync();
+            var userDict = users.ToDictionary(x => x.UserId);
+
+            return new MultigetUserResponse
+            {
+                Users = userDict
+            };
         }
 
         // Login user - api/Users/login

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using StoriesApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StoryContext>(options => 
 {
-    var connectionString=builder.Configuration.GetConnectionString("Default");
-    options.UseMySQL(connectionString);
+    var connectionString=builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseNpgsql(connectionString);
 });
 
 var app = builder.Build();

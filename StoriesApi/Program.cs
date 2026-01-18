@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using StoriesApi.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +13,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<StoryContext>(options => 
+// 1️⃣ Build a manual NpgsqlConnection with AddressFamily
+var connectionString = "Host=db.ewvzykrtjcikjfagovcv.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=[1l1k32Wr1t3!];SslMode=Require;Trust Server Certificate=true;";
+var npgsqlConnection = new NpgsqlConnection(connectionString);
+
+// 2️⃣ Pass the NpgsqlConnection directly to UseNpgsql
+builder.Services.AddDbContext<DbContext>(options =>
 {
-    var connectionString=builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseNpgsql(connectionString);
+    options.UseNpgsql(npgsqlConnection);
 });
 
+// 3️⃣ Build and run your app
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
